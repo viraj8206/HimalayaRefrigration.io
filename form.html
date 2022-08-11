@@ -1,0 +1,175 @@
+<html>
+  <head>
+    <title>Contact page</title>
+  </head>
+  <link rel="stylesheet" href="form.css">
+  <body>
+    <div class="logo">ProChive</div>
+    
+    <div class="small-box">
+      
+         <div id="topic">
+            <h1 id="head">CONTACT US!</h1>
+            <p>We would love to hear about your project.</p>
+         </div>
+         
+     <form class="form1" method="POST" data-email="himalayarefrigeration9879@gmail.com"
+         action="https://script.google.com/macros/s/AKfycbygSjmSIrU5xuiett9ouUbwIRh2R5sF64ppT6M2rZ7miP1V_MYLG8H7iYOyyKCaatpV/exec">
+         <div  class="form-elements"><br>
+            <label>Name :-</label><br>
+             <input type="text" required="" name="Name" class="box"><br>
+      
+            <label>E-mail :-</label><br>
+             <input type="email" required="" name="E-mail" class="box"><br>
+      
+            <label>Phone No :-</label><br>
+             <input type="text" required="" name="Phone No." class="box"><br>
+      
+            <label>Gender :-</label><br>
+             <input type="radio" required="" name="Gender" value="male">Male<input type="radio" name="Gender" value="female">Female<br>
+
+            <label>Repair items :-</label><br>
+             <select name="Repair items"required="">
+                <option></option>
+		        <option>Single Door Fridge</option>
+		        <option>Double Door Fridge</option>
+                <option>Semi Washing Machines</option>
+                <option>Fully Automatic washing Machines</option>
+                <option>Gharghanti</option>
+             </select><br>
+            <label>Address :-</label><br>
+                <textarea required="" name="Address" cols="50" rows="3">
+	            </textarea><br>
+             <input type="submit" value="Submit"onclick="openpopup()" id="submit">
+             <div class="popup" id="popup">
+              <img src="D:\tic.jpg">
+              <h2>Thank You</h2>
+              <p>Your details are successfully submitted. Thanks!</p>
+              <button type="button"onclick="closepopup()">Ok</button>
+             </div>
+         </div>
+    </div>
+    
+    </form>
+    <script data-cfasync="false" type="text/javascript">
+      
+     (function() {
+    function validEmail(email) {
+      var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+      return re.test(email);
+    }
+  
+    function validateHuman(honeypot) {
+      if (honeypot) {
+        console.log("Robot Detected!");
+        return true;
+      } else {
+        console.log("Welcome Human!");
+      }
+    }
+    function getFormData(form) {
+      var elements = form.elements;
+  
+      var fields = Object.keys(elements).filter(function(k) {
+            return (elements[k].name !== "honeypot");
+      }).map(function(k) {
+        if(elements[k].name !== undefined) {
+          return elements[k].name;
+        }else if(elements[k].length > 0){
+          return elements[k].item(0).name;
+        }
+      }).filter(function(item, pos, self) {
+        return self.indexOf(item) == pos && item;
+      });
+  
+      var formData = {};
+      fields.forEach(function(name){
+        var element = elements[name];
+        formData[name] = element.value;
+        if (element.length) {
+          var data = [];
+          for (var i = 0; i < element.length; i++) {
+            var item = element.item(i);
+            if (item.checked || item.selected) {
+              data.push(item.value);
+            }
+          }
+          formData[name] = data.join(', ');
+        }
+      });
+  
+      // add form-specific values into the data
+      formData.formDataNameOrder = JSON.stringify(fields);
+      formData.formGoogleSheetName = form.dataset.sheet || "Sheet1"; // default sheet name
+      formData.formGoogleSendEmail = form.dataset.email || ""; // no email by default
+  
+      console.log(formData);
+      return formData;
+    }
+  
+    function handleFormSubmit(event) {  
+      event.preventDefault();           
+      var form = event.target;
+      var data = getFormData(form);         
+      if( data.email && !validEmail(data.email) ) {   
+        var invalidEmail = form.querySelector(".email-invalid");
+        if (invalidEmail) {
+          invalidEmail.style.display = "block";
+          return false;
+        }
+      } else {
+        disableAllButtons(form);
+        var url = form.action;
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', url);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            console.log(xhr.status, xhr.statusText);
+            console.log(xhr.responseText);
+            var formElements = form.querySelector(".form elements")
+            if (formElements) {
+              formElements.style.display = "none"; // hide form
+            }
+            var thankyouMessage = form.querySelector(".thankyou_message");
+            if (thankyouMessage) {
+             
+              alert("Thank You For Enqary");
+            }
+            return;
+           
+        };
+        var encoded = Object.keys(data).map(function(k) {
+            return encodeURIComponent(k) + "=" + encodeURIComponent(data[k]);
+        }).join('&');
+        xhr.send(encoded);
+      }
+    }
+    
+    function loaded() {
+      console.log("Contact form submission handler loaded successfully.");
+      var forms = document.querySelectorAll("form.form1");
+      for (var i = 0; i < forms.length; i++) {
+        forms[i].addEventListener("submit", handleFormSubmit, false);
+      }
+    };
+    document.addEventListener("DOMContentLoaded", loaded, false);
+  
+    function disableAllButtons(form) {
+      var buttons = form.querySelectorAll("button");
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].disabled = true;
+      }
+    }
+  })();
+        </script>
+        <script>
+          let popup = document.getElementById("popup");
+          function openpopup(){
+            popup.classList.add("open-popup");
+          }
+          function closepopup(){
+            popup.classList.remove("open-popup");
+          }
+        </script>
+    </body>
+    </html>

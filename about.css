@@ -554,8 +554,18 @@ body {
 
 	.footer-distributed{
 		font: bold 14px sans-serif;
+		width: 113%;
+       		margin-left: -30px;
 	}
-
+	.footer-distributed h3{
+       		 color:  #580505;
+        	 font: normal 30px 'Open Sans', cursive;
+        	 margin: 0;
+    }
+    
+    	.footer-distributed h3 span{
+    	        color:  lightseagreen;
+    }
 	.footer-distributed .footer-left,
 	.footer-distributed .footer-center,
 	.footer-distributed .footer-right{
